@@ -29,7 +29,7 @@ const actions = {
     // 列表更新
     GoodsListActions(context, bool) {
         //传递一个bool,如果是true,那么就请求全部的规格，如果是false,就请求分页
-        let params = bool ? {} : { size: context.state.SpecSize, page: context.state.SpecPage }
+        let params = bool ? {} : { size: context.state.GoodsSize, page: context.state.GoodsPage }
         reqGoodsList(params).then(res => {
             let arr = res.data.list ? res.data.list : []
             context.commit("changeGoodsList", arr)
