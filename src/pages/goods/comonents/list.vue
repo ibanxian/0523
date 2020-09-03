@@ -56,7 +56,7 @@
 // 引入vuex状态辅助函数
 import { mapGetters, mapActions } from "vuex";
 // 引入请求数据接口文件
-import { reqCateDel } from "../../../util/request";
+import { reqGoodsDel } from "../../../util/request";
 // 公用弹窗文件
 import { successAlert, warningAlert } from "../../../util/alert";
 
@@ -81,10 +81,11 @@ export default {
     },
     del(id) {
       //点击了确定，发起删除请求
-      reqCateDel({ id: id }).then((res) => {
+      reqGoodsDel({ id: id }).then((res) => {
         if (res.data.code == 200) {
           successAlert("删除成功");
-          this.reqList();
+          this.GoodsTotalActions(); // 总数
+          this.GoodsListActions(); // 列表
         } else {
           warningAlert(res.data.msg);
         }
