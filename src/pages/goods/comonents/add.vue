@@ -322,9 +322,7 @@ export default {
     if (this.ClassList.length == 0) {
       this.ClassListAction(); // 商品分类列表
     }
-    if (this.SpecList.length == 0) {
-      this.SpecListActions(true); // 商品规格列表
-    }
+    this.SpecListActions(true); // 商品规格列表
   },
 };
 </script>

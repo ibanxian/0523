@@ -72,7 +72,7 @@ export default {
         if (res.data.code == 200) {
           successAlert("删除成功");
           this.SpecTotalActions(); // 总数请求
-          this.SpecPageActions(1); // 设置到1页，触发列表更新
+          this.SpecListActions(); // 列表更新
         } else {
           warningAlert(res.data.msg);
         }

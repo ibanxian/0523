@@ -121,12 +121,12 @@ export default {
         this.isok = false;
         return;
       }
-      if (this.form.pid === 0 && this.form.icon == "") {
+      if (this.form.type === 1 && this.form.icon == "") {
         warningAlert("菜单图标不得为空");
         this.isok = false;
         return;
       }
-      if (this.form.url == "") {
+      if (this.form.type === 2 && this.form.url == "") {
         warningAlert("菜单地址不得为空");
         this.isok = false;
         return;

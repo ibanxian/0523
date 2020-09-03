@@ -16,8 +16,10 @@ const mutations = {
 
 // 接受组件方法
 const actions = {
-    SeckListActions(context) {
-        reqSeckList().then(res => {
+    SeckListActions(context, bool) {
+        //传递一个bool,如果是true,那么就请求全部的规格，如果是false,就请求分页
+        let params = bool ? {} : { size: context.state.SpecSize, page: context.state.SpecPage }
+        reqSeckList(params).then(res => {
             let arr = res.data.list ? res.data.list : []
             context.commit("changeSeckList", arr)
         })

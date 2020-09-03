@@ -297,7 +297,7 @@ export const reqSpecUpdate = (form) => {
 // 规格属性管理-规格属性删除
 export const reqSpecDel = (params) => {
     return axios({
-        url: baseUrl + "/api/catedelete",
+        url: baseUrl + "/api/specsdelete",
         method: "post",
         data: qs.stringify(params)
     })
