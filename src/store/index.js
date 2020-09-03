@@ -14,6 +14,7 @@ import spec from "./modules/spec"
 import banner from "./modules/banner"
 import goods from "./modules/goods"
 import user from "./modules/user";
+import seck from "./modules/seck";
 
 export default new Vuex.Store({
     state,
@@ -29,6 +30,7 @@ export default new Vuex.Store({
         spec,
         banner,
         goods,
-        user
+        user,
+        seck
     }
 })

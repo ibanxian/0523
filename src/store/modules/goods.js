@@ -27,11 +27,10 @@ const mutations = {
 // 接受组件方法
 const actions = {
     // 列表更新
-    GoodsListActions(context) {
-        reqGoodsList({
-            size: context.state.GoodsSize,
-            page: context.state.GoodsPage
-        }).then(res => {
+    GoodsListActions(context, bool) {
+        //传递一个bool,如果是true,那么就请求全部的规格，如果是false,就请求分页
+        let params = bool ? {} : { size: context.state.SpecSize, page: context.state.SpecPage }
+        reqGoodsList(params).then(res => {
             let arr = res.data.list ? res.data.list : []
             context.commit("changeGoodsList", arr)
         })

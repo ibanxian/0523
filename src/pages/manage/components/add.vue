@@ -86,19 +86,40 @@ export default {
     cancel() {
       this.info.isShow = false;
     },
+    // 正则规则
+    reg() {
+      this.isok = true;
+      if (this.form.roleid == "") {
+        warningAlert("所属角色不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.username == "") {
+        warningAlert("用户名称不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.password == "") {
+        warningAlert("密码不能为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了添加按钮
     add() {
-      reqUserAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("添加成功");
-          this.empty(); // 重置数据
-          this.cancel(); // 关掉窗口
-          this.UserListActions(); // 刷新列表
-          this.UserTotalActions(); // 请求总数
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqUserAdd(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("添加成功");
+            this.empty(); // 重置数据
+            this.cancel(); // 关掉窗口
+            this.UserListActions(); // 刷新列表
+            this.UserTotalActions(); // 请求总数
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
     // 父组件调用子组件的方法 查看某个数据
     look(id) {
@@ -109,13 +130,15 @@ export default {
     },
     // 点击了修改按钮
     update() {
-      reqUserUpdate(this.form).then((res) => {
-        if (res.data.code == 200) {
-          this.cancel(); // 弹窗消失
-          this.empty(); // 重置数据
-          this.UserListActions(); // 刷新列表
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqUserUpdate(this.form).then((res) => {
+          if (res.data.code == 200) {
+            this.cancel(); // 弹窗消失
+            this.empty(); // 重置数据
+            this.UserListActions(); // 刷新列表
+          }
+        });
     },
   },
   mounted() {

@@ -3,6 +3,7 @@
     <el-form :model="form">
       <el-form-item label="上级分类" :label-width="formLabelWidth">
         <el-select v-model="form.pid" placeholder="请选择上级分类">
+          <el-option label="--请选择--" :value="0" disabled></el-option>
           <el-option label="顶级分类" :value="0"></el-option>
           <!-- 少一个动态的数据 -->
           <el-option
@@ -75,7 +76,7 @@ export default {
     // 重置数据
     empty() {
       this.form = {
-        pid: 0,
+        pid: "",
         catename: "",
         status: 1,
         img: null,
@@ -114,18 +115,39 @@ export default {
       this.imgUrl = URL.createObjectURL(file); // 提取图片地址 imgUrl要在data中声明
       this.form.img = file; // 数据保存到form表单中
     },
+    // 正则规则
+    reg() {
+      this.isok = true;
+      if (this.form.pid === "") {
+        warningAlert("上级分类不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.catename == "") {
+        warningAlert("分类名称不能为空");
+        this.isok = false;
+        return;
+      }
+      if (form.pid != 0 && this.imgUrl == "") {
+        warningAlert("图片不能为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了确定按钮
     add() {
-      reqCateAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("添加成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.ClassListAction(); // 重新获取列表
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqCateAdd(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("添加成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.ClassListAction(); // 重新获取列表
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
     // 查看某一条详情
     look(id) {
@@ -137,16 +159,18 @@ export default {
     },
     // 点击了修改按钮
     update() {
-      reqCateUpdate(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("更新成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.ClassListAction(); // 重新获取列表
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqCateUpdate(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("更新成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.ClassListAction(); // 重新获取列表
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
   },
   mounted() {},

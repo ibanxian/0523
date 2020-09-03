@@ -113,22 +113,43 @@ export default {
       // 如果菜单类型是顶级菜单0，菜单类型就是目录1，不是菜单类型就是菜单2
       this.form.type = this.form.pid == 0 ? 1 : 2;
     },
+    // 正则
+    reg() {
+      this.isok = true;
+      if (this.form.title == "") {
+        warningAlert("菜单名称不得为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.pid === 0 && this.form.icon == "") {
+        warningAlert("菜单图标不得为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.url == "") {
+        warningAlert("菜单地址不得为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了添加按钮
     add() {
-      reqMenuAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          //添加成功
-          successAlert(res.data.msg);
-          //弹框消失
-          this.$emit("hide");
-          // 重置表单数据
-          this.empty();
-          // 触发列表更新
-          this.MenuListAction();
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqMenuAdd(this.form).then((res) => {
+          if (res.data.code == 200) {
+            //添加成功
+            successAlert(res.data.msg);
+            //弹框消失
+            this.$emit("hide");
+            // 重置表单数据
+            this.empty();
+            // 触发列表更新
+            this.MenuListAction();
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
     // 查看单一条数据，编辑按钮
     look(id) {
@@ -139,18 +160,20 @@ export default {
     },
     // 点击了编辑的修改按钮
     update(id) {
-      reqMenuUpdate(this.form).then((res) => {
-        if (res.data.code === 200) {
-          // 更新成功
-          successAlert("更新成功");
-          //弹框消失
-          this.$emit("hide");
-          // 重置表单数据
-          this.empty();
-          // 触发列表更新
-          this.MenuListAction();
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqMenuUpdate(this.form).then((res) => {
+          if (res.data.code === 200) {
+            // 更新成功
+            successAlert("更新成功");
+            //弹框消失
+            this.$emit("hide");
+            // 重置表单数据
+            this.empty();
+            // 触发列表更新
+            this.MenuListAction();
+          }
+        });
     },
     // 点击取消按钮
     cancel() {

@@ -71,22 +71,39 @@ export default {
     del(index) {
       this.attrArr.splice(index, 1);
     },
+    // 正则规则
+    reg() {
+      this.isok = true;
+      if (this.form.specsname == "") {
+        warningAlert("规格名称不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.attrArr == [""]) {
+        warningAlert("规格名称不能为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了确定按钮
     add() {
       //attrArr=[{value:"1"},{value:"2"},{value:"3"}] -->["1","2","3"]
       // 先map循环出每一项，然后json.stringfy转为字符串数组
       this.form.attrs = JSON.stringify(this.attrArr.map((item) => item.value));
-      reqSpecAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("添加成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.SpecListActions(); // 重新获取列表
-          this.SpecTotalActions() // 总数请求
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      console.log(this.form.attrs);
+      // this.isok &&
+      //   reqSpecAdd(this.form).then((res) => {
+      //     if (res.data.code == 200) {
+      //       successAlert("添加成功");
+      //       this.empty(); // 清空数据
+      //       this.cancel(); // 弹框消失
+      //       this.SpecListActions(); // 重新获取列表
+      //       this.SpecTotalActions(); // 总数请求
+      //     } else {
+      //       warningAlert(res.data.msg);
+      //     }
+      //   });
     },
     // 查看某一条详情
     look(id) {

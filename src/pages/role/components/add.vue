@@ -79,24 +79,35 @@ export default {
     close() {
       !this.info.isAdd && this.empty();
     },
+    // 正则
+    reg() {
+      this.isok = true;
+      if (this.form.rolename == "") {
+        warningAlert("角色名称不得为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了确定按钮
     add() {
       // this.$refs.tree.getCheckedKeys() 获取树形控件上的选中的key
       // JSON.stringify 把数组转成字符串数组
       this.form.menus = JSON.stringify(this.$refs.tree.getCheckedKeys());
-      reqRoleAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("添加角色成功");
-          // 弹窗消失
-          this.cancel();
-          // 清空数据
-          this.empty();
-          // 列表刷新
-          this.RoleListAction();
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqRoleAdd(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("添加角色成功");
+            // 弹窗消失
+            this.cancel();
+            // 清空数据
+            this.empty();
+            // 列表刷新
+            this.RoleListAction();
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
     // 查看详情 父组件调取子组件的方法,编辑
     look(id) {
@@ -110,19 +121,21 @@ export default {
     // 点击了修改按钮
     update() {
       this.form.menus = JSON.stringify(this.$refs.tree.getCheckedKeys());
-      reqRoleUpdate(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("修改角色成功");
-          // 弹窗消失
-          this.cancel();
-          // 清空数据
-          this.empty();
-          // 列表刷新
-          this.RoleListAction();
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqRoleUpdate(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("修改角色成功");
+            // 弹窗消失
+            this.cancel();
+            // 清空数据
+            this.empty();
+            // 列表刷新
+            this.RoleListAction();
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
   },
   mounted() {

@@ -2,8 +2,14 @@
   <div class="login">
     <div class="con">
       <h3>登入</h3>
-      <el-input placeholder="请输入用户名" v-model="user.username" clearable></el-input>
-      <el-input placeholder="请输入密码" v-model="user.password" clearable show-password></el-input>
+      <el-form :model="user" :rules="rules">
+        <el-form-item prop="username">
+          <el-input v-model="user.username" placeholder="输入账号" clearable></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="user.password" placeholder="输入密码" clearable show-password></el-input>
+        </el-form-item>
+      </el-form>
       <div class="btn-box">
         <el-button type="primary" @click="login">登录</el-button>
       </div>
@@ -22,6 +28,18 @@ export default {
         username: "",
         password: "",
       },
+      rules: {
+        username: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          {
+            min: 3,
+            max: 16,
+            message: "长度在 3 到 16 个字符",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -29,6 +47,15 @@ export default {
       InfoActions: "user/InfoActions", // 用户数据请求
     }),
     login() {
+      // 正则
+      if (this.user.username == "") {
+        warningAlert("请输入账户");
+        return;
+      }
+      if (this.user.password == "") {
+        warningAlert("请输入密码");
+        return;
+      }
       reqUserLogin(this.user).then((res) => {
         if (res.data.code == 200) {
           successAlert("登陆成功");
@@ -69,7 +96,10 @@ h3 {
   font-size: 24px;
 }
 .el-input {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+}
+.el-form-item {
+  margin-bottom: 25px;
 }
 .btn-box {
   text-align: center;

@@ -1,6 +1,7 @@
 import axios from "axios"
 import qs from "qs"
 import store from "../store" // 引入仓库
+import router from '../router'
 import { warningAlert } from "./alert"
 // 默认地址
 let baseUrl = "/api";
@@ -419,3 +420,47 @@ export const reqGoodsTotal = () => {
     })
 }
 // ************** 商品管理结束 ************** //
+
+// ************** 秒杀活动开始 ************** //
+// 秒杀活动-添加秒杀
+export const reqSeckAdd = (form) => {
+    return axios({
+        url: baseUrl + "/api/seckadd",
+        method: "post",
+        data: qs.stringify(form)
+    })
+}
+// 秒杀活动-秒杀列表
+export const reqSeckList = (params) => {
+    return axios({
+        url: baseUrl + "/api/secklist",
+        method: "get",
+        params: params
+    })
+}
+// 秒杀活动-秒杀详情
+export const reqSeckDetail = (params) => {
+    return axios({
+        url: baseUrl + "/api/seckinfo",
+        method: "get",
+        params: params
+    })
+}
+// 秒杀活动-秒杀修改
+export const reqSeckUpdate = (form) => {
+    return axios({
+        url: baseUrl + "/api/seckedit",
+        method: "post",
+        data: form
+    })
+}
+// 秒杀活动-秒杀删除
+export const reqSeckDel = (params) => {
+    return axios({
+        url: baseUrl + "/api/seckdelete",
+        method: "post",
+        data: qs.stringify(params)
+    })
+}
+
+// ************** 秒杀活动结束 ************** //
