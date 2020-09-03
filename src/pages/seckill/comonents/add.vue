@@ -122,21 +122,53 @@ export default {
       );
       this.form.goodsid = "";
     },
+    // 规则
+    req() {
+      this.isok = true;
+      if (this.form.title == "") {
+        warningAlert("活动名称不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.speckillTime == "") {
+        warningAlert("活动时限不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.first_cateid == "") {
+        warningAlert("一级分类不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.second_cateid == "") {
+        warningAlert("二级分类不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.goodsid == "") {
+        warningAlert("商品不能为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了确定按钮
     add() {
-      // 时间转换
-      this.form.begintime = this.speckillTime[0].getTime();
-      this.form.endtime = this.speckillTime[1].getTime();
-      reqSeckAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("添加成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.SeckListActions(); // 重新获取列表
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.req();
+      if (this.isok) {
+        // 时间转换
+        this.form.begintime = this.speckillTime[0].getTime();
+        this.form.endtime = this.speckillTime[1].getTime();
+        reqSeckAdd(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("添加成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.SeckListActions(); // 重新获取列表
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
+      }
     },
     // 查看某一条详情
     look(id) {
@@ -159,19 +191,22 @@ export default {
     },
     // 点击了修改按钮
     update() {
-      // 时间转换
-      this.form.begintime = this.speckillTime[0].getTime();
-      this.form.endtime = this.speckillTime[1].getTime();
-      reqSeckUpdate(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("更新成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.SeckListActions(); // 重新获取列表
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.req();
+      if (this.isok) {
+        // 时间转换
+        this.form.begintime = this.speckillTime[0].getTime();
+        this.form.endtime = this.speckillTime[1].getTime();
+        reqSeckUpdate(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("更新成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.SeckListActions(); // 重新获取列表
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
+      }
     },
     // 重置数据
     empty() {

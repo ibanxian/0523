@@ -66,6 +66,18 @@ export default {
     },
     // 点击了修改按钮
     update() {
+      if (this.form.nickname == "") {
+        warningAlert("昵称不能为空");
+        return;
+      }
+      if (this.form.phone == "") {
+        warningAlert("手机号不能为空");
+        return;
+      }
+      if (this.form.password == "") {
+        warningAlert("密码不能为空");
+        return;
+      }
       reqMemberUpdate(this.form).then((res) => {
         if ((res.data.code = 200)) {
           successAlert("修改成功");

@@ -3,7 +3,7 @@
     <el-form :model="form">
       <el-form-item label="上级分类" :label-width="formLabelWidth">
         <el-select v-model="form.pid" placeholder="请选择上级分类">
-          <el-option label="--请选择--" :value="0" disabled></el-option>
+          <el-option label="--请选择--" value="" disabled></el-option>
           <el-option label="顶级分类" :value="0"></el-option>
           <!-- 少一个动态的数据 -->
           <el-option
@@ -60,7 +60,7 @@ export default {
       formLabelWidth: "120px",
       // form初始数据
       form: {
-        pid: 0,
+        pid: "",
         catename: "",
         status: 1,
         img: null,

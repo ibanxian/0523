@@ -139,21 +139,72 @@ export default {
       GoodsListActions: "goods/GoodsListActions", // 列表请求
       GoodsTotalActions: "goods/GoodsTotalActions", // 总数请求
     }),
+    // 规则
+    reg() {
+      this.isok = true;
+      if (this.form.first_cateid == "") {
+        warningAlert("一级分类不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.second_cateid == "") {
+        warningAlert("二级分类不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.goodsname == "") {
+        warningAlert("商品名字不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.price == "") {
+        warningAlert("商品价格不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.market_price == "") {
+        warningAlert("市场价格不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.img == null) {
+        warningAlert("图片不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.specsid == "") {
+        warningAlert("商品规格不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.specsattr == "") {
+        warningAlert("商品属性不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.description == "<p><br></p>") {
+        warningAlert("商品描述不能为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了确定按钮
     add() {
       //取出富文本编辑器的内容，赋值给form的description
       this.form.description = this.editor.txt.html();
-      reqGoodsAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("添加成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.GoodsListActions(); // 重新获取列表
-          this.GoodsTotalActions(); // 重新获取商品总数
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqGoodsAdd(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("添加成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.GoodsListActions(); // 重新获取列表
+            this.GoodsTotalActions(); // 重新获取商品总数
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
     // 二级分类获取
     changeFirstId() {
@@ -245,16 +296,18 @@ export default {
     update() {
       //取出富文本编辑器的内容，赋值给form的description
       this.form.description = this.editor.txt.html();
-      reqGoodsUpdate(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("更新成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.GoodsListActions(); // 重新获取列表
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.reg();
+      this.isok &&
+        reqGoodsUpdate(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("更新成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.GoodsListActions(); // 重新获取列表
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
     //创建编辑器
     createEditor() {

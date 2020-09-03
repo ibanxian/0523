@@ -94,18 +94,34 @@ export default {
       this.imgUrl = URL.createObjectURL(file); // 提取图片地址 imgUrl要在data中声明
       this.form.img = file; // 数据保存到form表单中
     },
+    // 规则
+    req() {
+      this.isok = true;
+      if (this.form.title == "") {
+        warningAlert("轮播图标题不能为空");
+        this.isok = false;
+        return;
+      }
+      if (this.form.img == null) {
+        warningAlert("图片不能为空");
+        this.isok = false;
+        return;
+      }
+    },
     // 点击了确定按钮
     add() {
-      reqBannerAdd(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("添加成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.BannerListActions(); // 重新获取列表
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.req();
+      this.isok &&
+        reqBannerAdd(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("添加成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.BannerListActions(); // 重新获取列表
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
     // 查看某一条详情
     look(id) {
@@ -117,16 +133,18 @@ export default {
     },
     // 点击了修改按钮
     update() {
-      reqBannerUpdate(this.form).then((res) => {
-        if (res.data.code == 200) {
-          successAlert("更新成功");
-          this.empty(); // 清空数据
-          this.cancel(); // 弹框消失
-          this.BannerListActions(); // 重新获取列表
-        } else {
-          warningAlert(res.data.msg);
-        }
-      });
+      this.req();
+      this.isok &&
+        reqBannerUpdate(this.form).then((res) => {
+          if (res.data.code == 200) {
+            successAlert("更新成功");
+            this.empty(); // 清空数据
+            this.cancel(); // 弹框消失
+            this.BannerListActions(); // 重新获取列表
+          } else {
+            warningAlert(res.data.msg);
+          }
+        });
     },
   },
   mounted() {},
