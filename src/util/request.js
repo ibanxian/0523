@@ -4,7 +4,8 @@ import store from "../store" // 引入仓库
 import router from '../router'
 import { warningAlert } from "./alert"
 // 默认地址
-let baseUrl = "/api";
+// let baseUrl = "/api";
+let baseUrl = "";
 
 //请求拦截
 axios.interceptors.request.use(config => {

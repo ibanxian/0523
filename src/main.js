@@ -28,7 +28,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
 
 // 公用地址
-Vue.prototype.$preImg = "http://localhost:3000";
+// Vue.prototype.$preImg = "http://localhost:3000";
+Vue.prototype.$preImg = "";
 
 /* eslint-disable no-new */
 new Vue({
