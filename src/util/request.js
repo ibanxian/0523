@@ -204,7 +204,7 @@ export const reqMemberUpdate = (form) => {
 // 会员管理 - 会员总数
 export const reqMemberTotal = () => {
     return axios({
-        url: baseUrl + "/api//membercount",
+        url: baseUrl + "/api/membercount",
         method: "get"
     })
 }
